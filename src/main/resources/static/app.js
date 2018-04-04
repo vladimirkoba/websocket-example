@@ -9,7 +9,7 @@ function setConnected(connected) {
     else {
         $("#conversation").hide();
     }
-    $("#greetings").html("");
+    $("#metrics").html("");
 }
 
 function connect() {
@@ -19,8 +19,8 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/metrics', function (metric) {
-            var parsedMetric = JSON.parse(metric.body)
-            showGreeting("Metrics name = "+ parsedMetric.name + ", value = " + parsedMetric.value);
+            var parsedMetric = JSON.parse(metric.body);
+            showMetrics("Metrics name = "+ parsedMetric.name + ", value = " + parsedMetric.value);
         });
     });
 }
@@ -34,8 +34,8 @@ function disconnect() {
 }
 
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showMetrics(message) {
+    $("#metrics").append("<tr><td>" + message + "</td></tr>");
 }
 
 $(function () {

@@ -13,14 +13,17 @@ import ru.liga.websocketexample.domain.MetricService;
 @EnableScheduling
 @Import(AppConfig.class)
 public class SchedulerConfig {
-    @Autowired
-    private SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template;
+    private final MetricService metricService;
 
     @Autowired
-    MetricService metricService;
+    public SchedulerConfig(SimpMessagingTemplate template, MetricService metricService) {
+        this.template = template;
+        this.metricService = metricService;
+    }
 
     @Scheduled(fixedRate = 1000)
-    public void publishUpdates(){
+    public void generateNewMetric(){
         template.convertAndSend("/topic/metrics", metricService.generateRandomMetric());
     }
 }
